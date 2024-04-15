@@ -4,6 +4,7 @@ namespace Yonidebleeker\Webinsights;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Yonidebleeker\Webinsights\Commands\InstallCommand;
 
 class WebinsightsServiceProvider extends PackageServiceProvider
 {
