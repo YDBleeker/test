@@ -4,7 +4,7 @@ namespace Yonidebleeker\Webinsights;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Yonidebleeker\Webinsights\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;// Add this line to import InstallCommand
 
 class WebinsightsServiceProvider extends PackageServiceProvider
 {
@@ -18,7 +18,7 @@ class WebinsightsServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function(InstallCommand $command) {
                 $command
                     ->publishMigrations()
-                    ->askToRunMigrations()
+                    ->askToRunMigrations();
             });
     }
 }
