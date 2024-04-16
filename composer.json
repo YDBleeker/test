@@ -2,7 +2,7 @@
     "name": "yonidebleeker/webinsights",
     "keywords": [
         "laravel",
-        "quote"
+        "webinsights"
     ],
     "description": "A package to get insights on your website",
     "type": "library",
@@ -19,7 +19,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "spatie/laravel-package-tools": "^1.16"
+        "spatie/laravel-package-tools": "^1.16",
+        "mobiledetect/mobiledetectlib": "^4.8"
     },
     "extra": {
         "laravel": {

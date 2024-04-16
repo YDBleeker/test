@@ -1,4 +1,12 @@
-<header class="flex flex-row justify-between">
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  @vite('resources/css/app.css')
+</head>
+<body>
+    <header class="flex flex-row justify-between">
     <h1 class="m-10 text-5xl font-bold">Digital Up Analytics </h1>
     <div class="flex flex-row w-2/5 mb-auto mt-auto">
       <p class="m-1">Van:</p>
@@ -21,50 +29,50 @@
       </div>
     </div>
   </header>
-  
+
   <div class="flex justify-between">
     <div class= "w-4/5 p-5">
       <div class="flex justify-between">
-        <div class="w-1/6 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+        <div class="w-1/6 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Bezoekers Vandaag</p>
             <p class="text-4xl mb-4">115</p>
         </div>
-  
-        <div class="w-1/6 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+
+        <div class="w-1/6 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Bounce Percentage</p>
             <p class="text-4xl mb-4">2%</p>
         </div>
-  
-        <div class="w-1/6 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+
+        <div class="w-1/6 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Gemiddelde Sessie Duur</p>
             <p class="text-4xl mb-4">3.2min</p>
         </div>
-  
-        <div class="w-1/6 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+
+        <div class="w-1/6 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Mobiele Gebruikers</p>
             <p class="text-4xl mb-4">60%</p>
         </div>
-  
-        <div class="w-1/6 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+
+        <div class="w-1/6 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Desktop Gebruikers</p>
             <p class="text-4xl mb-4">40%</p>
         </div>
       </div>
-  
+
       <div class="flex justify-between">
-        <div class="w-6/12 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+        <div class="w-6/12 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Bezoekers</p>
             <p class="text-4xl mb-4">graph</p>
         </div>
-        <div class="w-5/12 px-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+        <div class="w-5/12 px-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
             <p class="font-bold text-1xl mr-2 mb-4">Bezoekers Afkomst</p>
             <p class="text-4xl mb-4">graph</p>
         </div>
       </div>
     </div>
-  
+
     <div class="w-1/5 p-5">
-      <div class="pl-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+      <div class="pl-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
           <p class="font-bold text-1xl mr-2 mb-4">Meest bekeken pagina's</p>
           <p class="text-l mb-4">1. https://test.be/pagina 115</p>
           <p class="text-l mb-4">2. https://test.be/pagina 115</p>
@@ -73,8 +81,8 @@
           <p class="text-l mb-4">5. https://test.be/pagina 115</p>
           <p class="text-l mb-4">6. https://test.be/pagina 115</p>
       </div>
-  
-      <div class="pl-4 py-8 my-4 {{ $bgColor }} shadow-md rounded-xl flex flex-col">
+
+      <div class="pl-4 py-8 my-4 shadow-md rounded-xl flex flex-col">
           <p class="font-bold text-1xl mr-2 mb-4">Minst Bekeken Pagina's</p>
           <p class="text-l mb-4">1. https://test.be/pagina 115</p>
           <p class="text-l mb-4">2. https://test.be/pagina 115</p>
@@ -85,8 +93,9 @@
       </div>
     </div>
   </div>
-  
+
   <footer>
     <p class="m-3">Powered by digitalUp</p>
   </footer>
-  
+</body>
+</html>

@@ -1,10 +1,10 @@
 <?php
 
-namespace Yonidebleeker\Webinsights\Models;
+namespace Yonidebleeker\Webinsights\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Quote extends Model
+class Visitor extends Model
 {
     protected $table = 'visitors';
     protected $fillable = ['cookie, source, device_type'];
