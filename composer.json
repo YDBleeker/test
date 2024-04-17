@@ -28,5 +28,14 @@
                 "Yonidebleeker\\Webinsights\\WebinsightsServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.15",
+        "pestphp/pest": "^2.34"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

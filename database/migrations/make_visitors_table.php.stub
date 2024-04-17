@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('cookie');
             $table->enum('device_type', ['phone', 'desktop']);
-            $table->string('source');
+            $table->string('source')->nullable();
             $table->timestamps();
         });
     }

@@ -2,9 +2,9 @@
 
 namespace Yonidebleeker\Webinsights;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class WebinsightsServiceProvider extends PackageServiceProvider
 {
@@ -15,14 +15,13 @@ class WebinsightsServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasRoute('web')
             ->hasMigrations('make_visitors_table', 'make_pagevisits_table', 'make_pages_table')
-            ->hasInstallCommand(function(InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishMigrations()
                     ->askToRunMigrations();
-                    //->publishViews();
             });
     }
 }
 
 //php artisan webinsights:install
-
+//php artisan vendor:publish --tag=your-package-name-views
