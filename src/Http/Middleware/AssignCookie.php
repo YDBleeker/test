@@ -12,17 +12,19 @@ class AssignCookie
     /**
      * Handle an incoming request.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
-        $cookie = '';
-        if (! $request->cookie('user_cookie')) {
+        $cookie = "";
+        if (!$request->cookie('user_cookie')) {
             $cookieValue = uniqid();
             // Set the cookie with a name 'user_cookie' and the generated value
             Cookie::queue('user_cookie', $cookieValue, 60); // 60 is the number of minutes the cookie will be valid
 
-            $cookie = 'user_cookie='.$cookieValue;
+            $cookie = 'user_cookie=' . $cookieValue;
             $request->headers->set('cookie', $cookie);
         }
 

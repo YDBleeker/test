@@ -3,11 +3,11 @@
 namespace Yonidebleeker\Webinsights\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Yonidebleeker\Webinsights\Http\Models\Page;
 
 class Pagevisit extends Model
 {
     protected $table = 'pagevisits';
-
     protected $fillable = ['page_id', 'visitor_id'];
 
     // Add any additional methods or relationships here

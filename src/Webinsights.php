@@ -22,7 +22,7 @@ class Webinsights
         $request = request();
         $visitor = Visitor::firstOrCreate([
             'cookie' => $this->substractCookie($request->headers->get('cookie')),
-            'source' => $request->headers->get('referer'),
+            'source' => $this->categorizeSource($request->headers->get('referer')),
             'device_type' => $this->isMobile() ? 'mobile' : 'desktop',
         ]);
 
@@ -38,6 +38,7 @@ class Webinsights
         return response()->json(['message' => 'Page visit stored']);
     }
 
+
     /**
      * Get if the visitor is on a mobile device
      */
@@ -45,7 +46,6 @@ class Webinsights
     {
         try {
             $isMobile = $this->detect->isMobile();
-
             return $isMobile;
         } catch (\Detection\Exception\MobileDetectException $e) {
             return null;
@@ -74,10 +74,34 @@ class Webinsights
      */
     public function getAll()
     {
-        // Eager load pages and visitors
         $pagevisits = Pagevisit::with('page', 'visitor')->get();
-
-        // Return JSON response
         return response()->json($pagevisits);
     }
+
+    /**
+     * Categorize the source of the visitor
+     */
+    private function categorizeSource($source)
+    {
+        if (!$source) {
+            return 'Direct';
+        }
+
+        $categories = [
+            'google' => 'Google',
+            'facebook|twitter|linkedin|x\.com|instagram' => 'Social Media'
+        ];
+
+        // Check if the source matches any of the categories
+        foreach ($categories as $pattern => $category) {
+            if (preg_match('/' . $pattern . '/i', $source)) {
+                return $category;
+            }
+        }
+
+        return $source;
+    }
+
+
+
 }
