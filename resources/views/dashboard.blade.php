@@ -11,24 +11,15 @@
             <button class="absolute top-3 left-3 xl:static xl:top-3 xl:left-3 bg-webinsights-widget-color font-bold p-2 xl:mr-6 rounded" onclick="goBack()">Terug</button>
             <h1 class="mt-8 xl:mt-0 text-5xl font-bold ">Digital Up Analytics</h1>
         </div>
-        <div class="flex flex-col xl:flex-row w-3/6 mb-auto mt-auto items-center">
+        <div class="flex flex-col xl:flex-row xl:justify-center w-3/6 mb-auto mt-auto">
             <p class="m-3">Van:</p>
-            <div class="relative max-w-sm xl:mr-5">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                    </svg>
-                </div>
-                <input id="startDate" datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" type="text" class="bg-webinsights-widget-color border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selecteer datum" @if ($start_date) value="{{ $start_date }}" @endif>
+            <div class="relative">
+                <input type="date" class="block rounded-lg p-2 w-full bg-white border border-gray-300 py-2 px-3 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             </div>
+
             <p class="m-3">Tot:</p>
-            <div class="relative max-w-sm">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                    </svg>
-                </div>
-                <input id="endDate" datepicker datepicker-autohide datepicker-format="dd/mm/yyyy" type="text" class="bg-webinsights-widget-color border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Selecteer datum" @if ($end_date) value="{{ $end_date }}" @endif>
+            <div class="relative">
+                <input type="date" class="block rounded-lg p-2 w-full bg-white border border-gray-300 py-2 px-3 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             </div>
             <button class="bg-black-500 font-bold py-6 xl:py-2 px-4 rounded" onclick="clearFilter()">Verwijder Filter</button>
         </div>
@@ -136,10 +127,9 @@
   <footer class="w-full bg-slate-300">
     <p class="py-2 text-center">Digital up © 2024</p>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
 </body>
 </html>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var ctx = document.getElementById('source').getContext('2d');

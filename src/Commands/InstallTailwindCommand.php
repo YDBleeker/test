@@ -19,29 +19,44 @@ class InstallTailwindCommand extends Command
             "laravel-vite-plugin" => "^1.0",
             "postcss" => "^8.4.38",
             "tailwindcss" => "^3.4.3",
-            "vite" => "^5.0"
-
+            "vite" => "^5.0",
             ] + $packages;
         });
 
-        copy(__DIR__.'/../tailwind.config.js', base_path('tailwind.config.js'));
-        copy(__DIR__.'/../postcss.config.js', base_path('postcss.config.js'));
-        copy(__DIR__.'/../vite.config.js', base_path('vite.config.js'));
-        copy(__DIR__.'/../resources/css/app.css', resource_path('/css/app.css'));
-        copy(__DIR__.'/../resources/js/app.js', resource_path('/resources/js/app.js'));
+        $parentDir = dirname(dirname(__DIR__));
+
+
+        copy($parentDir.'/tailwind.config.js', base_path('tailwind.config.js'));
+        copy($parentDir.'/postcss.config.js', base_path('postcss.config.js'));
+        copy($parentDir.'/vite.config.js', base_path('vite.config.js'));
+        copy($parentDir.'/resources/css/app.css', resource_path('css/app.css'));
+        copy($parentDir.'/resources/js/app.js', resource_path('js/app.js'));
 
         $this->info('Installing and building Node dependencies.');
 
+        $commands = [];
         if (file_exists(base_path('pnpm-lock.yaml'))) {
-            $this->runCommands(['pnpm install', 'pnpm run build']);
+            $commands = ['pnpm install', 'pnpm run build'];
         } elseif (file_exists(base_path('yarn.lock'))) {
-            $this->runCommands(['yarn install', 'yarn run build']);
+            $commands = ['yarn install', 'yarn run build'];
         } else {
-            $this->runCommands(['npm install', 'npm run build']);
+            $commands = ['npm install', 'npm run build'];
+        }
+
+        if (!empty($commands)) {
+            $this->runCommands($commands);
         }
 
         $this->line('');
         $this->info('Web Insights installed successfully.');
+    }
+
+    protected function runCommands(array $commands)
+    {
+        foreach ($commands as $command) {
+            $this->line("Running command: $command");
+            system($command);
+        }
     }
 
 

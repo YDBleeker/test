@@ -1,7 +1,6 @@
 // tailwind.config.js
 module.exports = {
-    purge: [
-      "./node_modules/flowbite/**/*.js",
+    content: [
       './vendor/yonidebleeker/webinsights/resources/views/*.blade.php',
     ],
     theme: {
