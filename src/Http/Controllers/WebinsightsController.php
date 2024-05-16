@@ -13,26 +13,21 @@ use Illuminate\Support\Facades\DB;
 
 class WebinsightsController extends Controller
 {
-    public function test(){
-        return Pagevisit::all();
-    }
-    
     /*
     * Fetch data for the dashboard
     */
     public function getDashboardData(Request $request)
     {
         // Retrieve start and end dates from the request
-        $input_start_date = $request->start_date ?? null;
+        $input_start_date = $request->start_date ?? null; //2024-05-15
         $input_end_date = $request->end_date ?? null;
 
         if ($input_start_date === null) {
-            $start_date = today()->subMonth(1);
-            $end_date = today();
+            $start_date = today()->subMonth(1)->format('Y-m-d');
+            $end_date = today()->addDay()->format('Y-m-d');
         } else {
-        $start_date = Carbon::createFromFormat('d/m/Y', $input_start_date)->format('Y-m-d');
-        $end_date = Carbon::createFromFormat('d/m/Y', $input_end_date)->format('Y-m-d');
-        $end_date = Carbon::parse($end_date)->addDay();
+            $start_date = Carbon::createFromFormat('Y-m-d', $input_start_date);
+            $end_date = Carbon::createFromFormat('Y-m-d', $input_end_date)->addDay();
         }
 
         // Get data for the previous period
@@ -129,14 +124,16 @@ class WebinsightsController extends Controller
     private function getAverageVisitors($start_date, $end_date)
     {
         $query = Visitor::query()
-            ->select(DB::raw('COUNT(*) as count'));
+        ->select(DB::raw('COUNT(*) as count'))
+        ->groupBy(DB::raw('DATE(created_at)'));
+
         if ($start_date && $end_date) {
             $query->whereBetween('created_at', [$start_date, $end_date]);
         }
 
-        $query->groupBy(DB::raw('DATE(created_at)'));
+        $result = $query->first();
 
-        return $query->count();
+        return $result ? $result->count : 0;
     }
 
     /**
@@ -184,56 +181,66 @@ class WebinsightsController extends Controller
     }
 
     /**
-     * Get the average time a visitor spent on a website
+     * Get the average visit time of the website
      */
     private function getAverageTime($start_date, $end_date)
     {
+        // Define the base query
         $query = Pagevisit::query()
             ->select('visitor_id', 'created_at')
+            ->orderBy('visitor_id')
             ->orderBy('created_at');
 
+        // Apply date range if specified
         if ($start_date && $end_date) {
             $query->whereBetween('created_at', [$start_date, $end_date]);
         }
 
-        $pageVisits = $query->get(); // Fetch the results
-        $visitors = $query->groupBy('visitor_id')->get(); // Fetch the results
+        // Fetch the results
+        $pageVisits = $query->get();
 
-        $averageTime = 0;
+        $visitorVisitTimes = [];
 
-        foreach ($visitors as $visitor) {
-            // Look for the first and last visit in $pageVisits
-            $firstVisit = $pageVisits->where('visitor_id', $visitor->visitor_id)->last();
-            $lastVisit = $pageVisits->where('visitor_id', $visitor->visitor_id)->first();
+        // Group visits by visitor_id
+        $pageVisitsGrouped = $pageVisits->groupBy('visitor_id');
 
-            $averageTime += $lastVisit->created_at->diffInMinutes($firstVisit->created_at);
+        foreach ($pageVisitsGrouped as $visitorId => $visits) {
+            if ($visits->count() > 1) {
+                $firstVisit = $visits->first();
+                $lastVisit = $visits->last();
+                $visitorVisitTimes[] = $firstVisit->created_at->diffInMinutes($lastVisit->created_at);
+            }
         }
 
         // Calculate the average time
-        return count($visitors) > 0 ? round($averageTime / count($visitors), 2) : 0;
+        $totalVisitors = count($visitorVisitTimes);
+        $averageTime = $totalVisitors > 0 ? array_sum($visitorVisitTimes) / $totalVisitors : 0;
+
+        return round($averageTime, 2);
     }
 
 
-    /**
-     * Get the bounce rate of the website
-     */
+
     private function getBounceRate($start_date, $end_date)
     {
+        // Define the base query
         $query = Pagevisit::query()
-            ->selectRaw('COUNT(visitor_id) as count, visitor_id, created_at')
-            ->orderBy('created_at');
+            ->selectRaw('visitor_id, COUNT(*) as visit_count')
+            ->groupBy('visitor_id');
 
+        // Apply date range if specified
         if ($start_date && $end_date) {
             $query->whereBetween('created_at', [$start_date, $end_date]);
         }
 
-        $query->groupBy('visitor_id');
+        // Get total number of unique visitors
+        $totalVisitors = $query->get()->count();
 
-        $totalVisitors = $query->count();
-        $singlePageVisits = $query->having('count', '=', 1)->count();
+        // Get the number of visitors with only one page visit
+        $singlePageVisits = $query->having('visit_count', '=', 1)->get()->count();
 
         // Ensure to handle the case where totalVisitors is 0 to avoid division by zero
-        $bounceRate = ($totalVisitors > 0) ? $singlePageVisits / $totalVisitors : 0;
+        $bounceRate = ($totalVisitors > 0) ? ($singlePageVisits / $totalVisitors) : 0;
 
         return $bounceRate;
     }

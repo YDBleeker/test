@@ -24,7 +24,7 @@ class AssignCookie
             // Set the cookie with a name 'user_cookie' and the generated value
             Cookie::queue('user_cookie', $cookieValue, 60); // 60 is the number of minutes the cookie will be valid
 
-            $cookie = 'user_cookie=' . $cookieValue;
+            $cookie = 'insights_user_cookie=' . $cookieValue;
             $request->headers->set('cookie', $cookie);
         }
 

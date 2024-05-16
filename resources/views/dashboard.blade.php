@@ -8,18 +8,18 @@
 <body>
     <header class="flex flex-col px-5 items-center text-center xl:text-left xl:items-start xl:flex-row xl:justify-between">
         <div class="my-8 xl:my-8 flex flex-col xl:flex-row">
-            <button class="absolute top-3 left-3 xl:static xl:top-3 xl:left-3 bg-webinsights-widget-color font-bold p-2 xl:mr-6 rounded" onclick="goBack()">Terug</button>
+            <button class="absolute top-3 left-3 xl:static xl:top-3 xl:left-3 bg-webinsights-widget-color font-bold p-2 xl:mr-6 rounded" onclick="window.location.href='{{ route('webinsights.goback') }}'">Terug</button>
             <h1 class="mt-8 xl:mt-0 text-5xl font-bold ">Digital Up Analytics</h1>
         </div>
         <div class="flex flex-col xl:flex-row xl:justify-center w-3/6 mb-auto mt-auto">
             <p class="m-3">Van:</p>
             <div class="relative">
-                <input type="date" class="block rounded-lg p-2 w-full bg-white border border-gray-300 py-2 px-3 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <input id="startDate" type="date" class="block rounded-lg p-2 w-full bg-white border border-gray-300 py-2 px-3 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             </div>
 
             <p class="m-3">Tot:</p>
             <div class="relative">
-                <input type="date" class="block rounded-lg p-2 w-full bg-white border border-gray-300 py-2 px-3 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <input id="endDate" type="date" class="block rounded-lg p-2 w-full bg-white border border-gray-300 py-2 px-3 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             </div>
             <button class="bg-black-500 font-bold py-6 xl:py-2 px-4 rounded" onclick="clearFilter()">Verwijder Filter</button>
         </div>
@@ -134,8 +134,8 @@
 <script>
     var ctx = document.getElementById('source').getContext('2d');
 
-    var sourceLabels = {!! json_encode($source->pluck('source')->toArray()) !!};
-    var sourceCounts = {!! json_encode($source->pluck('count')->toArray()) !!};
+    const sourceLabels = {!! json_encode($source->pluck('source')->toArray()) !!};
+    const sourceCounts = {!! json_encode($source->pluck('count')->toArray()) !!};
 
     var myChart = new Chart(ctx, {
         type: 'doughnut',
@@ -161,8 +161,8 @@
     var ctx = document.getElementById('visitors').getContext('2d');
 
     // Extracting days and counts from the $visitors variable
-    var visitorDays = {!! json_encode($visitorsEachDay->pluck('date')->toArray()) !!};
-    var visitorCounts = {!! json_encode($visitorsEachDay->pluck('visitor_count')->toArray()) !!};
+    const visitorDays = {!! json_encode($visitorsEachDay->pluck('date')->toArray()) !!};
+    const visitorCounts = {!! json_encode($visitorsEachDay->pluck('visitor_count')->toArray()) !!};
     var myChartVisitors = new Chart(ctx, {
         type: 'line',
         data: {
@@ -180,8 +180,19 @@
     const startDateInput = document.getElementById('startDate');
     const endDateInput = document.getElementById('endDate');
 
-    startDateInput.addEventListener('changeDate', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const startDateParam = urlParams.get('start_date');
+    const endDateParam = urlParams.get('end_date');
+
+    if (startDateParam && endDateParam) {
+        startDateInput.value = startDateParam;
+        endDateInput.value = endDateParam;
+    }
+    console.log(startDateInput.value);
+
+    startDateInput.addEventListener('change', function() {
       // Ensure endDate cannot be before startDate
+      console.log(startDateInput.value);
       if (new Date(endDateInput.value) < new Date(startDateInput.value)) {
         endDateInput.value = startDateInput.value;
       }
@@ -190,7 +201,7 @@
       }
     });
 
-    endDateInput.addEventListener('changeDate', function() {
+    endDateInput.addEventListener('change', function() {
       // Ensure startDate cannot be after endDate
       console.log(endDateInput.value);
       if (new Date(startDateInput.value) > new Date(endDateInput.value)) {

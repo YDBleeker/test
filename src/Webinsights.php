@@ -99,7 +99,7 @@ class Webinsights
             }
         }
 
-        return $source;
+        return 'Other';
     }
 
 

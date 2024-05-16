@@ -15,8 +15,7 @@ class WebinsightsServiceProvider extends PackageServiceProvider
             ->name('webinsights')
             ->hasViews()
             ->hasRoute('web')
-            ->hasMigrations('make_visitors_table', 'make_pagevisits_table', 'make_pages_table')
-            ->hasCommand(InstallTailwindCommand::class)
+            ->hasMigrations('make_visitors_table', 'make_pages_table', 'make_pagevisits_table')
             ->hasInstallCommand(function(InstallCommand $command) {
                 $command
                     ->publishMigrations()
